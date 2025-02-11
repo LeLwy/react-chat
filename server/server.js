@@ -23,7 +23,11 @@ io.on('connection', (socket) => {
 
     // Écoute les messages de chat et les diffuse à tous les clients
     socket.on('chat message', (msg) => {
-        io.emit('chat message', msg); // Réémet le message de chat à tous les clients connectés
+        try {
+            io.emit('chat message', msg); // Réémet le message de chat à tous les clients connectés
+        } catch (error) {
+            console.error('Erreur lors de l\'émission du message de chat:', error); // Affiche un message d'erreur en cas de problème
+        }
     });
 });
 
@@ -31,4 +35,10 @@ io.on('connection', (socket) => {
 const PORT = process.env.PORT || 5000;
 
 // Démarrage du serveur sur le port défini
-server.listen(PORT, () => console.log(`Serveur en cours d'exécution sur le port ${PORT}`));
+server.listen(PORT, (error) => {
+    if (error) {
+        console.error('Erreur lors du démarrage du serveur:', error); // Affiche un message d'erreur en cas de problème lors du démarrage du serveur
+    } else {
+        console.log(`Serveur en cours d'exécution sur le port ${PORT}`); // Affiche un message lorsque le serveur démarre correctement
+    }
+});
