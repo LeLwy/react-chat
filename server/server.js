@@ -25,7 +25,7 @@ io.on('connection', (socket) => {
     // Écoute les messages de chat et les diffuse à tous les clients
     socket.on('chat message', (msg) => {
         try {
-            io.emit('chat message', msg); // Réémet le message de chat à tous les clients connectés
+            io.emit('chat message', msg); // Réémet le message de chat à tous les clients
         } catch (error) {
             console.error('Erreur lors de l\'émission du message de chat:', error); // Affiche un message d'erreur en cas de problème
         }
