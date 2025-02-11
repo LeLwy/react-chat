@@ -1,27 +1,2 @@
 # Node modules
-node_modules/  # Dossier contenant les dépendances installées par npm
-
-# Build output
-build/  # Dossier de sortie des fichiers de build
-dist/  # Dossier de distribution des fichiers de build
-
-# Logs
-logs/  # Dossier contenant les fichiers de logs
-*.log  # Tous les fichiers avec l'extension .log
-npm-debug.log*  # Fichiers de log de débogage npm
-yarn-debug.log*  # Fichiers de log de débogage yarn
-yarn-error.log*  # Fichiers de log d'erreur yarn
-
-# Dependency directories
-jspm_packages/  # Dossier contenant les packages installés par JSPM
-
-# IDE files
-.vscode/  # Dossier de configuration de l'éditeur Visual Studio Code
-.idea/  # Dossier de configuration de l'IDE IntelliJ IDEA
-
-# Environment variables
-.env  # Fichier contenant les variables d'environnement
-
-# Miscellaneous
-.DS_Store  # Fichier système créé par macOS pour stocker des informations sur un dossier
-Thumbs.db  # Fichier système créé par Windows pour stocker des miniatures d'images
+node_modules/
