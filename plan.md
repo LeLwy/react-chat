@@ -88,13 +88,68 @@ Ajoutez une route simple pour servir l'application client. Cela permettra de ser
 // chemin : /server/server.js
 // ...code existant...
 
-app.use(express.static('client/build'));
+const path = require('path');
+
+app.use(express.static(path.join(__dirname, '..', 'client', 'build')));
 
 app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+    res.sendFile(path.resolve(__dirname, '..', 'client', 'build', 'index.html'));
 });
 
 // ...code existant...
+```
+
+### 2.3 Utiliser un fichier indépendant pour les routes
+
+Pour une meilleure organisation, vous pouvez créer un fichier indépendant pour gérer les routes. Créez un fichier nommé `routes.js` dans le répertoire `server`.
+
+```javascript
+// chemin : /server/routes.js
+const express = require('express');
+const path = require('path');
+const router = express.Router();
+
+router.use(express.static(path.join(__dirname, '..', 'client', 'build')));
+
+router.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '..', 'client', 'build', 'index.html'));
+});
+
+module.exports = router;
+```
+
+Ensuite, importez et utilisez ce routeur dans votre fichier `server.js`.
+
+```javascript
+// chemin : /server/server.js
+const express = require('express');
+const http = require('http');
+const socketIo = require('socket.io');
+const routes = require('./routes');
+
+const app = express();
+const server = http.createServer(app);
+const io = socketIo(server);
+
+// Écoute les connexions des clients
+io.on('connection', (socket) => {
+    console.log('Nouveau client connecté');
+
+    // Écoute la déconnexion des clients
+    socket.on('disconnect', () => {
+        console.log('Client déconnecté');
+    });
+
+    // Écoute les messages de chat et les diffuse à tous les clients
+    socket.on('chat message', (msg) => {
+        io.emit('chat message', msg);
+    });
+});
+
+app.use(routes);
+
+const PORT = process.env.PORT || 5000;
+server.listen(PORT, () => console.log(`Serveur en cours d'exécution sur le port ${PORT}`));
 ```
 
 ## Étape 3 : Configuration du Client
