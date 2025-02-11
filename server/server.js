@@ -2,6 +2,7 @@
 const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
+const routes = require('./routes'); // Importation du module de routage
 
 // Création de l'application Express
 const app = express();
@@ -30,6 +31,8 @@ io.on('connection', (socket) => {
         }
     });
 });
+
+app.use(routes); // Utilisation du module de routage pour gérer les routes
 
 // Définition du port d'écoute du serveur
 const PORT = process.env.PORT || 5000;
